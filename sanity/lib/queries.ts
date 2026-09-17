@@ -26,9 +26,9 @@ export const categoriesByTypeQuery = groq`
 
 // 取得所有文章年分
 export const postsYearQuery = groq`
-  array::unique(
-    *[_type == $postType && defined(publishedAt)].publishedAt
-  )
+    *[_type == $postType && defined(publishedAt)] {
+      publishedAt
+    }
 `;
 
 export const postBySlugQuery = groq`

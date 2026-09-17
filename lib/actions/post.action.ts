@@ -60,13 +60,15 @@ export async function getCategoriesByType(postType: "post" | "project") {
 }
 
 export async function getAllPostsYear(postType: "post" | "project") {
-	const years = await client.fetch<string[]>(postsYearQuery, { postType });
+	const years = await client.fetch<{ publishedAt: string }[]>(postsYearQuery, {
+		postType,
+	});
 
 	if (!years) throw new Error("Fetch post years failed");
 
-	const sortedYears = years
-		.map((year) => year.slice(0, 4))
-		.sort((a, b) => Number(b) - Number(a));
+	const sortedYears = [
+		...new Set(years.map((year) => year.publishedAt.slice(0, 4))),
+	].sort((a, b) => Number(b) - Number(a));
 
 	return sortedYears;
 }
