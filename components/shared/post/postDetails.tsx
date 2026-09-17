@@ -19,7 +19,7 @@ export default async function PostDetails({
 	const components: PortableTextComponents = {
 		types: {
 			image: ({ value }) => (
-				<div className="relative w-full aspect-video">
+				<div className="relative w-full aspect-video mb-6 rounded-sm overflow-hidden">
 					<Image
 						src={urlFor(value).url()}
 						alt={value.alt || ""}
