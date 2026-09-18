@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 import { SERVER_URL } from "@/lib/constants";
+import { SanityLive } from "@/sanity/lib/live";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -22,7 +23,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 			lang="en"
 			className={`${geist.variable} ${inter.className} h-full antialiased`}
 		>
-			<body>{children}</body>
+			<body>
+				{children}
+				<SanityLive />
+			</body>
 		</html>
 	);
 }

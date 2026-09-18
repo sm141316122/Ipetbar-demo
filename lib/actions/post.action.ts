@@ -7,8 +7,9 @@ import {
 	postsQuery,
 	postsYearQuery,
 } from "@/sanity/lib/queries";
-import { Category, PreviewPost } from "@/types/index";
+import { Category } from "@/types/index";
 import { PAGE_SIZE } from "../constants";
+import { sanityFetch } from "@/sanity/lib/live";
 
 export async function getPosts({
 	postType,
@@ -41,7 +42,10 @@ export async function getPosts({
 			end,
 		};
 
-		const posts = await client.fetch<PreviewPost[]>(postsQuery, filter);
+		const { data: posts } = await sanityFetch({
+			query: postsQuery,
+			params: filter,
+		});
 
 		return { success: true, message: "Fetching posts successfully", posts };
 	} catch (error) {
