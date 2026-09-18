@@ -54,9 +54,12 @@ export async function getPosts({
 }
 
 export async function getCategoriesByType(postType: "post" | "project") {
-	const categories = await client.fetch<Category[]>(categoriesByTypeQuery, {
-		postType,
-	});
+	const { data: categories } = (await sanityFetch({
+		query: categoriesByTypeQuery,
+		params: {
+			postType,
+		},
+	})) as { data: Category[] };
 
 	if (!categories) throw new Error("Fetch categories failed");
 
@@ -64,9 +67,12 @@ export async function getCategoriesByType(postType: "post" | "project") {
 }
 
 export async function getAllPostsYear(postType: "post" | "project") {
-	const years = await client.fetch<{ publishedAt: string }[]>(postsYearQuery, {
-		postType,
-	});
+	const { data: years } = (await sanityFetch({
+		query: postsYearQuery,
+		params: {
+			postType,
+		},
+	})) as { data: { publishedAt: string }[] };
 
 	if (!years) throw new Error("Fetch post years failed");
 
@@ -78,7 +84,10 @@ export async function getAllPostsYear(postType: "post" | "project") {
 }
 
 export async function getNextPost(postType: string, publishedAt: string) {
-	const nextPost = await client.fetch(nextPostQuery, { postType, publishedAt });
+	const { data: nextPost } = (await sanityFetch({
+		query: nextPostQuery,
+		params: { postType, publishedAt },
+	})) as { data: { title: string; slug: { current: string } } };
 
 	return nextPost;
 }
